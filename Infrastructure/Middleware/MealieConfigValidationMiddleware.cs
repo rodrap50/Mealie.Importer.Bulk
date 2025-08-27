@@ -41,11 +41,9 @@ public class MealieConfigValidationMiddleware(
     {
         // Priority order: Headers -> Environment Variables -> Default Config
         var baseUrl = context.Request.Headers["X-Mealie-Base-Url"].FirstOrDefault()
-                     ?? Environment.GetEnvironmentVariable("MEALIE_BASE_URL")
                      ?? _defaultConfig.BaseUrl;
 
         var apiToken = context.Request.Headers["X-Mealie-Api-Token"].FirstOrDefault()
-                      ?? Environment.GetEnvironmentVariable("MEALIE_API_TOKEN")
                       ?? _defaultConfig.ApiToken;
 
         return new MealieConfig
