@@ -475,11 +475,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/config/home/MealieBulkImport/API/API.csproj",
+      "projectUniqueName": "/home/nobody/MealieBulkImport/API/API.csproj",
       "projectName": "API",
-      "projectPath": "/config/home/MealieBulkImport/API/API.csproj",
+      "projectPath": "/home/nobody/MealieBulkImport/API/API.csproj",
       "packagesPath": "/home/nobody/.nuget/packages/",
-      "outputPath": "/config/home/MealieBulkImport/API/obj/",
+      "outputPath": "/home/nobody/MealieBulkImport/API/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/home/nobody/.nuget/NuGet/NuGet.Config"

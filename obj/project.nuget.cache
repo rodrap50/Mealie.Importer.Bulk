@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "lovsWOncRVc=",
+  "dgSpecHash": "uaRfgN3dbFY=",
   "success": true,
-  "projectFilePath": "/config/home/MealieBulkImport/API/API.csproj",
+  "projectFilePath": "/home/nobody/MealieBulkImport/API/API.csproj",
   "expectedPackageFiles": [
     "/home/nobody/.nuget/packages/microsoft.aspnetcore.openapi/9.0.5/microsoft.aspnetcore.openapi.9.0.5.nupkg.sha512",
     "/home/nobody/.nuget/packages/microsoft.extensions.apidescription.server/6.0.5/microsoft.extensions.apidescription.server.6.0.5.nupkg.sha512",
