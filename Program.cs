@@ -1,8 +1,9 @@
+using API.Infrastructure.Middleware;
 using API.Infrastructure.Startup;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Configuration.AddEnvironmentVariables();
 
-builder.Services.AddOpenApi();
 builder.AddCustomServices();
 
 var app = builder.Build();
@@ -14,7 +15,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseMiddleware<MealieConfigValidationMiddleware>();
 app.UseHttpsRedirection();
 
 app.UseAuthorization();

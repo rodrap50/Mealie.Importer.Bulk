@@ -15,6 +15,7 @@ public static class ApplicationServicesStartup
 
         builder.Services.AddScoped<IMealieApiClient, MealieApiClient>();
         builder.Services.AddScoped<IBulkImportService, BulkImportService>();
+        builder.Services.AddScoped<IMealieConfigProvider, MealieConfigProvider>();
 
         builder.Services.Configure<JsonSerializerOptions>(options =>
         {
@@ -23,8 +24,20 @@ public static class ApplicationServicesStartup
         });
 
         // Add configuration
-        builder.Services.Configure<MealieConfig>(
-        builder.Configuration.GetSection("Mealie"));
+        builder.Services.Configure<MealieConfig>(config => {
+            // First try appsettings
+            builder.Configuration.GetSection("Mealie").Bind(config);
+            
+            // Override with environment variables if they exist
+            var envBaseUrl = builder.Configuration.GetValue<string>("MEALIE_BASE_URL");
+            var envApiToken = builder.Configuration.GetValue<string>("MEALIE_API_TOKEN");
+            
+            if (!string.IsNullOrEmpty(envBaseUrl))
+                config.BaseUrl = envBaseUrl;
+            
+            if (!string.IsNullOrEmpty(envApiToken))
+                config.ApiToken = envApiToken;
+        });
         
         return builder;
     }

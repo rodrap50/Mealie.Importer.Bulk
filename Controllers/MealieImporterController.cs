@@ -17,6 +17,9 @@ namespace API.Controllers
     {
         try
         {
+            var config = HttpContext.Items["MealieConfig"] as MealieConfig 
+                ?? throw new InvalidOperationException("Mealie configuration not found");
+                
             _logger.LogInformation("Starting bulk import of {recipesCount} recipes", recipes.Count );
             
             var result = await _bulkImportService.ImportRecipesAsync(recipes);
