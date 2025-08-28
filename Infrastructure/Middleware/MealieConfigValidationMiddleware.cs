@@ -14,12 +14,14 @@ public class MealieConfigValidationMiddleware(
 
     public async Task InvokeAsync(HttpContext context)
     {
+        _logger.LogDebug("InvokeAsync Called MealieConfigValidationMiddleware");
         // Only validate on bulk import endpoints
         if (context.Request.Path.StartsWithSegments("/api/bulkimport"))
         {
             var config = GetMealieConfig(context);
+            _logger.LogDebug("MealieConfig {config}", config);
             var validationResult = ValidateConfig(config);
-            
+            _logger.LogDebug("ValidationResult {results}", validationResult);
             if (!validationResult.IsValid)
             {
                 _logger.LogWarning("Mealie configuration validation failed: {Errors}", 
