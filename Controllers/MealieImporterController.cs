@@ -3,13 +3,13 @@ using API.Infrastructure.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace API.Controllers
+namespace API.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+public class MealieImporterController(IBulkImportService bulkImportService, ILogger<MealieImporterController> logger) : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class MealieImporterController(IBulkImportService bulkImportService, ILogger<MealieImporterController> logger) : ControllerBase
-    {
-        private readonly IBulkImportService _bulkImportService = bulkImportService;
+    private readonly IBulkImportService _bulkImportService = bulkImportService;
     private readonly ILogger<MealieImporterController> _logger = logger;
 
     [HttpPost("Bulk")]
@@ -17,6 +17,8 @@ namespace API.Controllers
     {
         try
         {
+            _logger.LogInformation("HttpContext Items Config {1}", HttpContext.Items);
+            _logger.LogInformation("Mealie Config {1}", HttpContext.Items["MealieConfig"]);
             var config = HttpContext.Items["MealieConfig"] as MealieConfig 
                 ?? throw new InvalidOperationException("Mealie configuration not found");
                 
@@ -33,6 +35,5 @@ namespace API.Controllers
             _logger.LogError(ex, "Error occurred during bulk import");
             return StatusCode(500, new { message = "An error occurred during bulk import", error = ex.Message });
         }
-    }
     }
 }
