@@ -16,7 +16,7 @@ public class MealieConfigValidationMiddleware(
     {
         _logger.LogDebug("InvokeAsync Called MealieConfigValidationMiddleware");
         // Only validate on bulk import endpoints
-        if (context.Request.Path.StartsWithSegments("/api/bulkimport"))
+        if (context.Request.Path.StartsWithSegments("/api/mealieimporter"))
         {
             var config = GetMealieConfig(context);
             _logger.LogDebug("MealieConfig {config}", config);
