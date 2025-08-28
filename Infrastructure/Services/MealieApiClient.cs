@@ -121,6 +121,7 @@ public class MealieApiClient : IMealieApiClient
         response.EnsureSuccessStatusCode();
         
         var responseContent = await response.Content.ReadAsStringAsync();
+        _logger.LogDebug("Parsed Ingredients Respone: {responseContent}", responseContent);
         return JsonSerializer.Deserialize<List<ParsedIngredient>>(responseContent, _jsonOptions) ?? new();
     }
 
