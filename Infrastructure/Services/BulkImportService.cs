@@ -186,7 +186,7 @@ namespace API.Infrastructure.Services
                     var parsedIngredients = await _mealieClient.ParseIngredientsAsync(recipe.RecipeIngredient);
                 
                     // Ensure food items exist
-                    await EnsureFoodItemsExistAsync(ref parsedIngredients);
+                    parsedIngredients = await EnsureFoodItemsExistAsync(parsedIngredients);
                 
                     await _mealieClient.UpdateRecipeIngredientsAsync(recipeName, parsedIngredients);
                 }
@@ -201,23 +201,25 @@ namespace API.Infrastructure.Services
             _logger.LogInformation("Successfully imported recipe: {recipeName}", recipe.Name);
         }
 
-        private async Task EnsureFoodItemsExistAsync(ref List<ParsedIngredient> ingredients)
+        private async Task<List<ParsedIngredient>> EnsureFoodItemsExistAsync(List<ParsedIngredient> ingredients)
         {
-            foreach (ref var ingredient in ingredients)
-            {
-                if (string.IsNullOrEmpty(ingredient.Ingredient.Food.Id))
+            for(var i = 0;  i < ingredients.Count; i++) {
+            //foreach (var ingredient in ingredients)
+            //{
+                if (string.IsNullOrEmpty(ingredients[i].Ingredient.Food.Id))
                 {
                     try
                     {
-                        var foodId = await _mealieClient.CreateFoodAsync(ingredient.Ingredient.Food);
-                        ingredient.Ingredient.Food.Id = foodId;
+                        var foodId = await _mealieClient.CreateFoodAsync(ingredients[i].Ingredient.Food);
+                        ingredients[i].Ingredient.Food.Id = foodId;
                     }
                     catch (Exception ex)
                     {
-                        _logger.LogWarning(ex, "Failed to create food item: {ingredientIngredientFoodName}", ingredient.Ingredient.Food.Name);
+                        _logger.LogWarning(ex, "Failed to create food item: {ingredientIngredientFoodName}", ingredients[i].Ingredient.Food.Name);
                     }
                 }
             }
+            return ingredients;
         }
     }
 }
