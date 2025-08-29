@@ -186,7 +186,7 @@ namespace API.Infrastructure.Services
                     var parsedIngredients = await _mealieClient.ParseIngredientsAsync(recipe.RecipeIngredient);
                 
                     // Ensure food items exist
-                    await EnsureFoodItemsExistAsync(parsedIngredients);
+                    await EnsureFoodItemsExistAsync(ref parsedIngredients);
                 
                     await _mealieClient.UpdateRecipeIngredientsAsync(recipeName, parsedIngredients);
                 }
@@ -201,9 +201,9 @@ namespace API.Infrastructure.Services
             _logger.LogInformation("Successfully imported recipe: {recipeName}", recipe.Name);
         }
 
-        private async Task EnsureFoodItemsExistAsync(List<ParsedIngredient> ingredients)
+        private async Task EnsureFoodItemsExistAsync(ref List<ParsedIngredient> ingredients)
         {
-            foreach (var ingredient in ingredients)
+            foreach (ref var ingredient in ingredients)
             {
                 if (string.IsNullOrEmpty(ingredient.Ingredient.Food.Id))
                 {
